@@ -31,3 +31,12 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+
+# LaTeX files
+*.aux
+*.bbl
+*.blg
+*.log
+
+# PDF files
+*.pdf
