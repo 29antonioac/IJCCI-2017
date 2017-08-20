@@ -34,6 +34,75 @@
 \section{\uppercase{Introduction}}
 \label{sec:introduction}
 
+% Supervised learning is...
+
+\noindent Supervised learning is a very useful approach to solve problems using
+related data. In the field of AI applied to videogames research, its use is
+conditional on the possibility of getting data from them.
+
+% Introducing the game and its relation with supervised learning
+
+Real Time Strategy or \emph{RTS} games are a very suitable kind of videogames
+to use supervised learning with, because usually they have a very large set of
+features which could be used to analyze the game deeply. In particular,
+\emph{StarCraft} is a very well-known RTS game from the 90s. In this game both
+players begin with a simple building and some workers, and the objective is
+to create an army that can defeat the opponent's one. This is ussualy achieved
+gathering resources from the map and building some important structures to get
+the best units for your army. However, there are infinite strategies to follow,
+and all of them are valid ones. Whatever strategy it is used, this process
+generates a lot of data, which can be used to get hidden information from the
+match.
+
+% BWAPI: Accesing to data
+
+Usually companies don't allow access matches' data to users. \emph{StarCraft}
+is not an exception, but community have created an \emph{API} to access data
+and manipulate the game itself: \emph{BWAPI}. With this tool users can create
+artificial agent which play the game making competitions. Another common use
+of this \emph{API} is gather data. The conclusions that can be extracted
+from data could be very important, because could offer extra information
+of matches in real time.
+
+% Our proposal
+
+In this paper we propose a set of \emph{StarCraft} features which can predict
+the winner of a match precisely, with the help of a powerful classifier.
+Furthermore, this features can be ranked to
+get useful information of matches' flow. The framework we have chosen for this
+work is the Apache ecosystem for data analytics, \emph{Spark} with the machine
+learning library \emph{MLlib}. They provide tools able to deal with a big
+amount of data, so we think it is a good decision due to the data dimension:
+the analysis was done in an usual personal computer.
+
+% What did we do?
+
+In this work a complete Knowledge Discovery in Databases (\emph{KDD}) process
+is done. The data were collected from \cite{DBLP:conf/flairs/RobertsonW14},
+a set of six relational databases which contains a very big amount of data
+from more than 4500 \emph{StarCraft} replays. A preprocessing with \emph{SQL}
+was made to organise the data and extract our set of important features. At
+last, the modelling was made using \emph{Spark} and \emph{MLlib} as we said,
+allowing us to extract useful information as the winner in an early stage of
+the matches and a ranking of useful features.
+
+% What did we get?
+
+We obtained some important conclussions: it is not needed to play the whole
+match to know what player is the winner. With 10 minutes approximately, it is
+enough to get precise predictions. Keeping in mind that the average duration
+of a match is 48 minutes approximately, the time reduction is considerable. It
+could be useful combined with metaheuristics to optimize agents for this
+videogame faster.
+
+These predictions are very precise. They have an accuracy rate above 90\%, so
+we can conclude they are reliable. They could improve studies about this
+videogame or bots, giving information about uncertainty in matches.
+
+Another conclussion is that the set of features presented is very powerful.
+Training a classifier is easy, but it doesn't help if data has no quality.
+This set of data and features could be used in a lot of approaches.
+
 \cite{DBLP:conf/evoW/Fernandez-AresG16}
 
 \section{\uppercase{State of the art}}
