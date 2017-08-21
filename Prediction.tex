@@ -103,10 +103,33 @@ Another conclussion is that the set of features presented is very powerful.
 Training a classifier is easy, but it doesn't help if data has no quality.
 This set of data and features could be used in a lot of approaches.
 
-\cite{DBLP:conf/evoW/Fernandez-AresG16}
-
 \section{\uppercase{State of the art}}
 \label{sec:state}
+
+\noindent In the \emph{StarCraft} research a lot of approaches has been presented.
+The most used approach is developing probabilistic graphical models to predict
+the winner of a match. Some examples are in~\cite{DBLP:conf/cig/SynnaeveB11a}
+and~\cite{DBLP:conf/aiide/StanescuHEGB13}, where important events in the match
+are used to predict the outcome: when a very important building appears,
+an important event succession for a race, the birth of the best unit of a race,
+etc.
+
+Another approach based in supervised learning is presented
+in~\cite{DBLP:conf/cosecivi/Sanchez-Ruiz15}, but the environment is homogeneus
+and controlled. It is possible that it doesn't show the diversity in
+\emph{StarCraft} matches. A better dataset is presented
+in~\cite{DBLP:conf/flairs/RobertsonW14}, which is very heterogeneus,
+complete and granulated.
+
+Another works look for plans and strategies based on predictions of the outcome
+of matches, as we can see in~\cite{adaptativeStrategyPrediction} and
+in~\cite{makingAndActing}.
+
+Another approach is developing strategies using \emph{Genetic Programming},
+creating plans automatically which can win. This kind of algorithms are very
+time consuming, so whatever saved time would be appreciated. This approach
+gives good results, as we can see in~\cite{DBLP:conf/evoW/Fernandez-AresG16}
+and~\cite{DBLP:conf/cig/Garcia-SanchezT15}.
 
 \section{\uppercase{Metodology}}
 \label{sec:metodology}
