@@ -88,20 +88,23 @@ the matches and a ranking of useful features.
 
 % What did we get?
 
-We obtained some important conclussions: it is not needed to play the whole
-match to know what player is the winner. With 10 minutes approximately, it is
-enough to get precise predictions. Keeping in mind that the average duration
-of a match is 48 minutes approximately, the time reduction is considerable. It
-could be useful combined with metaheuristics to optimize agents for this
-videogame faster.
+The first conclussion we obtain is that the set of features presented is very
+powerful. Training a classifier is easy, but it doesn't help if data has no
+quality. This set of data and features could be used in other works based
+on \emph{StarCraft} data to try to improve their results.
 
 These predictions are very precise. They have an accuracy rate above 90\%, so
 we can conclude they are reliable. They could improve studies about this
 videogame or bots, giving information about uncertainty in matches.
 
-Another conclussion is that the set of features presented is very powerful.
-Training a classifier is easy, but it doesn't help if data has no quality.
-This set of data and features could be used in a lot of approaches.
+The last conclussion we obtain with this work is that it is not needed to play
+the wholematch to know what player is the winner. With 10 minutes approximately,
+it is enough to get precise predictions. Keeping in mind that the average
+duration of a match is 48 minutes approximately, the time reduction is
+considerable. It could be useful combined with metaheuristics to optimize
+agents for this videogame faster.
+
+
 
 \section{\uppercase{State of the art}}
 \label{sec:state}
@@ -133,6 +136,130 @@ and~\cite{DBLP:conf/cig/Garcia-SanchezT15}.
 
 \section{\uppercase{Metodology}}
 \label{sec:metodology}
+
+In this paper we do a complete \emph{KDD} process using \emph{SQL} and some
+Apache tools: \emph{Spark} with its \emph{Scala} interface and \emph{MLlib}.
+We did this election because Apache echosystem is suitable for dealing
+with very large datasets, offering a framework which produces similar projects
+in centralized and distributed environments.
+
+Using its \emph{Scala} interface was chosen because it is the most complete
+one for \emph{Spark} and \emph{MLlib}. Furthermore, \emph{Scala} is a modern
+functional and object-oriented language which is used widely in some companies
+as LinkedIn, Twitter or Siemens. One of this advantages is that \emph{Scala}
+compiles to the Java Virtual Machine or \emph{JVM}. As a consecuence,
+multiplatform code is developed.
+
+\subsection{Feature selection}
+\label{subsec:selection}
+
+% What features we use
+
+The data we use is taken from~\cite{DBLP:conf/flairs/RobertsonW14}, who with
+their work offer six relational databases of one versus one matches, with all
+the possible combinations of races that the game offers.
+
+In Figure~\ref{fig:databaseSelection} we could see the entity-relationship diagram
+of the databases that contain the matches. Understand all features was easy
+because~\cite{DBLP:conf/flairs/RobertsonW14} work is totally open, so we could
+explore the code associated. Furthermore, a lot of features has the same name
+that attributes from the \emph{BWAPI}, although a set of features was calculated
+by the researchers like the distance to the base in a moment of the match.
+
+To get a rows and columns dataset, we propose this structure. Each row of the
+dataset will be a precise instant of the match, determined by a \emph{Frame}.
+Each instant has the information of resources of each player. This approach
+is different to another ones presented in~\ref{sec:introduction}. It seems easy
+but the organisation of the data was not trivial.
+
+\begin{figure*}[!h]
+  \centering
+  \includegraphics[scale=0.5]{figure/Robertson14DatabaseDiagramSeleccion.pdf}
+  \caption{Selected features in databases. Original diagram by~\cite{DBLP:conf/flairs/RobertsonW14}}
+  \label{fig:databaseSelection}
+\end{figure*}
+
+We present here the list of selected features, also exposed in
+Figure~\ref{fig:databaseSelection}. Some of them are used only to organise the
+data, the identifiers of replay, player and region.
+
+\begin{itemize}
+  \item replay: This table contais data about each match.
+  \begin{itemize}
+    \item ReplayID: Match identifier.
+    %\item Duration: Duration of each match in frames, 15 frames per second.
+  \end{itemize}
+  \item playerreplay: This table contains data about a player in a match.
+  \begin{itemize}
+    \item PlayerReplayID: Player identifier.
+    \item ReplayID: Match identifier.
+    \item Winner: Winner of the match.
+  \end{itemize}
+  \item resourcechange: This table contains data associated to changes in player's resources.
+  \begin{itemize}
+    \item PlayerReplayID: Player identifier.
+    \item Frame: Frame when the resource changes.
+    \item Minerals: Amount of minerals of a player.
+    \item Gas: Amount of gas of a player.
+    \item Supply: Carrying capacity of a player.
+    \item TotalMinerals: Total amount of minerals of a player, without costs.
+    \item TotalGas: Total amount of minerals of a player, without costs.
+    \item TotalSupply: Total amount of minerals of a player, without costs.
+  \end{itemize}
+  \item regionvaluechange: This table contains data associated to changes of a
+  player in a map region. Each \emph{value} is the sum of the price of an unit,
+  expressed as minerals and gas.
+  \begin{itemize}
+    \item PlayerReplayID: Player identifier.
+    \item RegionID: Region of the map identifier.
+    \item Frame: Frame when the value changes.
+    \item GroundUnitValue: Value of ground units in this region.
+    \item BuildingValue: Value of buildings in this region.
+    \item AirUnitValue: Value of air units in this region.
+    \item EnemyGroundUnitValue: Value of enemy ground units in this region.
+    This value is estimated, the player knows the units they see of the enemy.
+    \item EnemyBuildingValue: Value of enemy buildings in this region.
+    This value is estimated, the player knows the units they see of the enemy.
+    \item EnemyAirUnitValue: Value of enemy air units in this region.
+    This value is estimated, the player knows the units they see of the enemy.
+    \item ResourceValue: Value of resources in this region. This value is
+    estimated, the player knows the units they see of the map.
+    If the player doesn't know a region, they estimate this value as the maximum
+    available in the region.
+  \end{itemize}
+\end{itemize}
+
+The features related to a player are presented twice, one for each player.
+Furthermore, a \emph{race} feature is used, as the races implied in the match.
+As a consecuence, we have 28 features used in the modelling stage of the work.
+
+\subsection{Data preprocessing}
+\label{subsec:preprocess}
+
+As we said in~\ref{subsec:selection}, each observation of the data has 28
+features related to the resources and units of each player. We have to note
+some little tips about the data organisation.
+
+\begin{itemize}
+  \item Values of \emph{Frame} are the instants when a whatever player has
+  a minerals, gas or supply change. We did this election because in this games
+  the basic resources are always changing due to necessity of them to buy
+  units or buildings. This implies some missing values in the resources of
+  the player who doesn't make a change in that frame, so we had to recover the
+  last value of that resource to keep consistency.
+  \item Values of \emph{value} of units and buildings doesn't occur in the
+  same instant that the resources' changes. For this reason, as we did with
+  \emph{Frame}, we had to recover the last value of the region values of
+  each player, too.
+  \item \emph{Value} depends of the region of the map. It's important in our
+  approach to get a full \emph{value} measure, a value that represents all
+  the player units or buildings, so we had to sum the \emph{value} of every
+  region of the map.
+\end{itemize}
+
+
+\subsection{Exploratory Data Analysis}
+\label{subsec:eda}
 
 \section{\uppercase{Results}}
 \label{sec:results}
