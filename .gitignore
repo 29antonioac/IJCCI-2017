@@ -40,3 +40,6 @@ vignettes/*.pdf
 
 # PDF files
 *.pdf
+
+# Temporary .tex
+*.tex
