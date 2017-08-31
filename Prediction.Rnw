@@ -10,6 +10,7 @@
 \usepackage{multicol}
 \usepackage{pslatex}
 \usepackage{apalike}
+\usepackage{float}
 \usepackage{SCITEPRESS}     % Please add other packages that you may need BEFORE the SCITEPRESS.sty package.
 
 \subfigtopskip=0pt
@@ -30,6 +31,26 @@
 \abstract{The abstract should summarize the contents of the paper and should contain at least 70 and at most 200 words. The text must be set to 9-point font size.}
 
 \onecolumn \maketitle \normalsize \vfill
+
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+library(ggplot2)
+library(reshape2)
+
+knitr::opts_chunk$set(echo = F)
+#knit_hooks$set(document = function(x) {sub('\\usepackage[]{color}', '\\usepackage[pdftex,dvipsnames]{xcolor}', x, fixed = TRUE)})
+
+readSparkData <- function(folder) {
+  dfs <- lapply(list.files(folder, pattern = "*.csv", full.names = TRUE), read.csv)
+  df <- do.call(rbind, dfs)
+  df
+}
+
+# opts_chunk$set(cache=TRUE, autodep=TRUE)
+# opts_chunk$set(fig.width=4, fig.height=3,fig.pos = '!hbt')
+#opts_chunk$set(fig.pos = 'H', cache=T, autodep=T)
+#options(scipen=999)
+@
 
 \section{\uppercase{Introduction}}
 \label{sec:introduction}
@@ -67,7 +88,7 @@ of matches in real time.
 % Our proposal
 
 In this paper we propose a set of \emph{StarCraft} features which can predict
-the winner of a match precisely, with the help of a powerful classifier.
+the winner of a match accurately, even in an early stage of the math.
 Furthermore, this features can be ranked to
 get useful information of matches' flow. The framework we have chosen for this
 work is the Apache ecosystem for data analytics, \emph{Spark} with the machine
@@ -98,7 +119,7 @@ we can conclude they are reliable. They could improve studies about this
 videogame or bots, giving information about uncertainty in matches.
 
 The last conclussion we obtain with this work is that it is not needed to play
-the wholematch to know what player is the winner. With 10 minutes approximately,
+the whole match to know what player is the winner. With 10 minutes approximately,
 it is enough to get precise predictions. Keeping in mind that the average
 duration of a match is 48 minutes approximately, the time reduction is
 considerable. It could be useful combined with metaheuristics to optimize
@@ -263,6 +284,108 @@ some little tips about the data organisation.
 
 \section{\uppercase{Results}}
 \label{sec:results}
+
+In Figure~\ref{fig:MeasuresGraphics} and in the table~\ref{tab:measures} is
+exposed the accuracy of each model with their parameters. The accuracy is
+evaluated in the validation sets.
+
+<<measures>>=
+measures.full.path <- "data/measures_full.csv"
+measures.full <- read.csv(measures.full.path)
+frames <- sort(unique(measures.full$Frames))
+
+max.duration <- max(measures.full$Frames)
+# avg.duration.frames <- mean(data.full$Duration)
+# frames.to.mins <- 15*60
+# avg.duration.mins <- avg.duration.frames / frames.to.mins
+
+measures.mean <- aggregate(measures.full[,3:8], by = list(Frames = measures.full$Frames), mean)
+measures.median <- aggregate(measures.full[,3:8], by = list(Frames = measures.full$Frames), median)
+measures.sd <- aggregate(measures.full[,3:8], by = list(Frames = measures.full$Frames), sd)
+measures.norm <- aggregate(measures.full[,3:8], by = list(Frames = measures.full$Frames), function(v) shapiro.test(v)$p.value > 0.05)
+
+mean.melt <- melt(measures.mean, id.vars = "Frames", variable.name = "Classifier", value.name = "Accuracy")
+median.melt <- melt(measures.median, id.vars = "Frames", variable.name = "Classifier", value.name = "Accuracy")
+sd.melt <- melt(measures.sd, id.vars = "Frames", variable.name = "Classifier", value.name = "SD")
+
+normality <- all(measures.norm[,2:7] == T)
+mean_or_median.sd <- merge( if (normality) mean.melt else median.melt,
+                            sd.melt,
+                            by = c("Frames", "Classifier"))
+@
+
+Median with standard deviation is shown because data is not centered around the
+mean in all the selected instants.
+
+<<MeasuresData,results='asis'>>=
+results <- subset(mean_or_median.sd, Frames == max.duration)
+
+params <- data.frame( Classifier = c("GBT","LR","NB","RF","MLP","KNN"),
+                      Params = c("numTrees = 150, maxDepth = 10","maxIter = 150, regParam = 0.3",
+                     "Smoothing = 1", "numTrees = 150, maxDepth = 10",
+                     "Hidden layers = (10,10)", "K = 3"))
+results <- merge(results, params, by = "Classifier")
+print(xtable::xtable(results[,-2],
+  caption = "Trained algorithms with their final parameters",
+  table.placement="H",
+  label = "tab:measures",
+  digits = 6 ),
+  floating.environment = "table")
+@
+
+In general, all classifiers but \emph{Naïve Bayes} predict pretty well, but
+there are two clear winners: \emph{Gradient Boosting Tree} and \emph{KNN}.
+This one offers a great accuracy with a very simple approach, but it is not
+indicated for doing a lot of predictions in real time, because of its lazy
+approach.
+
+<<MeasuresGraphics, fig.cap = "Obtained measures with all models", fig.env = "figure">>=
+
+ggplot(subset(mean_or_median.sd, Frames == max.duration), aes(Classifier, Accuracy, fill = Classifier)) +
+  geom_bar(stat = "identity") +
+  geom_errorbar(aes(ymin=Accuracy-SD, ymax=Accuracy+SD),width=.3) +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.1)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.8, hjust = 0.8), axis.text.y = element_text(size = 8))
+@
+
+<<TimeComparisonAcc, fig.cap = "Classifiers comparative through time", fig.width = 10 >>=
+ggplot(subset(mean_or_median.sd, Frames != max.duration), aes(Frames, Accuracy, col = Classifier)) +
+  geom_point() +
+  geom_line() +
+  geom_errorbar(aes(ymin=Accuracy-SD, ymax=Accuracy+SD)) +
+  scale_x_continuous(breaks = frames) +
+  scale_y_continuous(breaks = seq(0.4,1.0,by=0.05))
+@
+
+<<Friedman, results = "asis">>=
+d <- as.matrix(subset(measures.full, Frames == max.duration)[,-c(1,2)])
+fr <- friedman.test(d)
+
+rownames(d) <- NULL
+
+print(xtable::xtable(d,
+  caption = "Accurate of classifiers in each validation set",
+  table.placement = "H",
+  label = "tab:acc",
+  digits = 6),
+  floating.environment = "table*")
+@
+
+<<Pairwise, results = "asis">>=
+tam <- dim(d)
+groups <- rep(1:tam[2], each=tam[1])
+
+a <- pairwise.t.test(d, g = groups, paired = T)
+out <- a$p.value
+colnames(out) <- colnames(measures.full)[3:7]
+rownames(out) <- colnames(measures.full)[4:8]
+print(xtable::xtable(out,
+  caption = "P-values from a pairwise t-test",
+  table.placement="H",
+  label = "tab:pvalues",
+  digits = 6 ),
+  floating.environment = "table*")
+@
 
 \section{\uppercase{Conclusions}}
 \label{sec:conclusions}
