@@ -11,6 +11,7 @@
 \usepackage{pslatex}
 \usepackage{apalike}
 \usepackage{float}
+\usepackage{tabularx}
 \usepackage{SCITEPRESS}     % Please add other packages that you may need BEFORE the SCITEPRESS.sty package.
 
 \subfigtopskip=0pt
@@ -37,7 +38,7 @@ library(knitr)
 library(ggplot2)
 library(reshape2)
 
-knitr::opts_chunk$set(echo = F)
+knitr::opts_chunk$set(echo = F, fig.pos = "H")
 #knit_hooks$set(document = function(x) {sub('\\usepackage[]{color}', '\\usepackage[pdftex,dvipsnames]{xcolor}', x, fixed = TRUE)})
 
 readSparkData <- function(folder) {
@@ -295,9 +296,9 @@ measures.full <- read.csv(measures.full.path)
 frames <- sort(unique(measures.full$Frames))
 
 max.duration <- max(measures.full$Frames)
-# avg.duration.frames <- mean(data.full$Duration)
-# frames.to.mins <- 15*60
-# avg.duration.mins <- avg.duration.frames / frames.to.mins
+avg.duration.frames <- 43968.9184653
+frames.to.mins <- 15*60
+avg.duration.mins <- avg.duration.frames / frames.to.mins
 
 measures.mean <- aggregate(measures.full[,3:8], by = list(Frames = measures.full$Frames), mean)
 measures.median <- aggregate(measures.full[,3:8], by = list(Frames = measures.full$Frames), median)
@@ -325,18 +326,22 @@ params <- data.frame( Classifier = c("GBT","LR","NB","RF","MLP","KNN"),
                      "Smoothing = 1", "numTrees = 150, maxDepth = 10",
                      "Hidden layers = (10,10)", "K = 3"))
 results <- merge(results, params, by = "Classifier")
+
+rownames(results) <- NULL
+# print(xtable::xtable(params),
+#   floating.environment = "table")
 print(xtable::xtable(results[,-2],
   caption = "Trained algorithms with their final parameters",
   table.placement="H",
   label = "tab:measures",
   digits = 6 ),
-  floating.environment = "table")
+  floating.environment = "table*")
 @
 
-In general, all classifiers but \emph{Naïve Bayes} predict pretty well, but
+In general, all classifiers but \emph{Naive Bayes} predict pretty well, but
 there are two clear winners: \emph{Gradient Boosting Tree} and \emph{KNN}.
 This one offers a great accuracy with a very simple approach, but it is not
-indicated for doing a lot of predictions in real time, because of its lazy
+suitable for doing a lot of predictions in real time, because of its lazy
 approach.
 
 <<MeasuresGraphics, fig.cap = "Obtained measures with all models", fig.env = "figure">>=
@@ -344,11 +349,11 @@ approach.
 ggplot(subset(mean_or_median.sd, Frames == max.duration), aes(Classifier, Accuracy, fill = Classifier)) +
   geom_bar(stat = "identity") +
   geom_errorbar(aes(ymin=Accuracy-SD, ymax=Accuracy+SD),width=.3) +
-  scale_y_continuous(breaks = seq(0, 1, by = 0.1)) +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.8, hjust = 0.8), axis.text.y = element_text(size = 8))
+  scale_y_continuous(breaks = seq(0, 1, by = 0.1)) #+
+  # theme(axis.text.x = element_text(angle = 45, vjust = 0.8, hjust = 0.8), axis.text.y = element_text(size = 8))
 @
 
-<<TimeComparisonAcc, fig.cap = "Classifiers comparative through time", fig.width = 10 >>=
+<<TimeComparisonAcc, fig.cap = "Classifiers comparative over time", fig.width = 10 >>=
 ggplot(subset(mean_or_median.sd, Frames != max.duration), aes(Frames, Accuracy, col = Classifier)) +
   geom_point() +
   geom_line() +
@@ -356,6 +361,18 @@ ggplot(subset(mean_or_median.sd, Frames != max.duration), aes(Frames, Accuracy, 
   scale_x_continuous(breaks = frames) +
   scale_y_continuous(breaks = seq(0.4,1.0,by=0.05))
 @
+
+In figure~\ref{fig:TimeComparisonAcc} is exposed the accuracy differences
+between classifiers over time. \emph{KNN} can classify with a precision of $\Sexpr{subset(mean_or_median.sd, Classifier == "KNN" & Frames == 9000)[1,"Accuracy"]} \pm \Sexpr{subset(mean_or_median.sd, Classifier == "KNN" & Frames == 9000)[1,"SD"]}$ only
+with 10 minutes of match. The mean of the duration is \Sexpr{avg.duration.frames}
+frames, which are equal to \Sexpr{avg.duration.mins} minutes. It implies that
+with only a \Sexpr{9000 / avg.duration.frames * 100}\% of the mean duration
+of the match, we can predict accurately the winner of a match. It is not
+necessary to play the whole match to get the winner with high confidence.
+
+To complete the study, we present a Friedman test to see significative
+differences over the classifiers. All frames of the matches are used. We
+can see in table~\ref{tab:acc} the accuracy of each classifier.
 
 <<Friedman, results = "asis">>=
 d <- as.matrix(subset(measures.full, Frames == max.duration)[,-c(1,2)])
@@ -370,6 +387,10 @@ print(xtable::xtable(d,
   digits = 6),
   floating.environment = "table*")
 @
+
+With a p-value of \Sexpr{I(fr$p.value)}, we can confirm that exist statistical
+signification. We can see in table~\ref{tab:pvalues} a pairwise test, with
+\emph{Bonferroni} adjust method of the p-value.
 
 <<Pairwise, results = "asis">>=
 tam <- dim(d)
@@ -387,8 +408,23 @@ print(xtable::xtable(out,
   floating.environment = "table*")
 @
 
+As we can see, we can confirm that with the usual signification level, 0.05,
+there are statistical differences among all classifiers but \emph{Logistic
+Regression} and \emph{Multilayer Perceptron}. They are not the best classifiers
+so this is not important. The important fact is that there are statistical
+differences between \emph{KNN} and \emph{Gradient Boosting Tree}.
+
 \section{\uppercase{Conclusions}}
 \label{sec:conclusions}
+
+With this study we can extract some conclusions. The first one is that the set
+of features are well formed: the winner can be predicted from the selected
+features with high confidence, as we exposed in~\ref{sec:results}.
+
+Predictions with this data are very accurate, in particular using a \emph{KNN}
+classifier. It can predict with 90\% of accuracy using 10 minutes of match only.
+
+WIP
 
 \section*{\uppercase{Acknowledgements}}
 \label{sec:acknowledgements}
