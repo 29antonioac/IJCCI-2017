@@ -286,7 +286,7 @@ some little tips about the data organisation.
 \section{\uppercase{Results}}
 \label{sec:results}
 
-In Figure~\ref{fig:MeasuresGraphics} and in the table~\ref{tab:measures} is
+In Figure~\ref{fig:MeasuresGraphics} and table~\ref{tab:measures} is
 exposed the accuracy of each model with their parameters. The accuracy is
 evaluated in the validation sets.
 
@@ -421,10 +421,25 @@ With this study we can extract some conclusions. The first one is that the set
 of features are well formed: the winner can be predicted from the selected
 features with high confidence, as we exposed in~\ref{sec:results}.
 
-Predictions with this data are very accurate, in particular using a \emph{KNN}
+The second and main conclusion is that predictions with this data are very
+accurate in an early stage, in particular using a \emph{KNN}
 classifier. It can predict with 90\% of accuracy using 10 minutes of match only.
+This is very important because it proofs that it is not necessary to play a
+whole match to predict the winner accurately.
 
-WIP
+As future work there are some research opportunities using this study. With a
+\emph{KNN} classifier, a competitive \emph{bot} could be developed with an
+important skill: the winner's prediction. It could be used to improve the
+adaptability of the agent, giving advantage to its opponents.
+
+Another work could be the improvement of \emph{bot} optimization using the early
+winner knowledge. We could use this knowledge to improve the evaluation step of
+the algorithms, giving the opportunity to use more exhaustive setups on the
+algorithms.
+
+
+
+
 
 \section*{\uppercase{Acknowledgements}}
 \label{sec:acknowledgements}
