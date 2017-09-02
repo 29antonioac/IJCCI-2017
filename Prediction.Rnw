@@ -20,7 +20,7 @@
 
 \begin{document}
 
-\title{Title  \subtitle{Subtitle?} }
+\title{Early prediction of the winner in \emph{StarCraft} matches }
 
 \author{\authorname{Antonio \'Alvarez-Caballero\sup{1}, J.J. Merelo\sup{1} and Third Author Name\sup{2}}
 \affiliation{\sup{1}Department of Computer Architecture and Computer Technology, University of Granada, Spain}
@@ -279,6 +279,21 @@ some little tips about the data organisation.
 
 % \subsection{Exploratory Data Analysis}
 % \label{subsec:eda}
+
+\subsection{Modelling}
+\label{subsec:modelling}
+
+We have chosen for the modelling some algorithms. Some of them are very simple,
+because we want to test the complexity of the data.
+
+\begin{itemize}
+  \item \emph{Naive Bayes} (NB)
+  \item \emph{Logistic Regression} (LR)
+  \item \emph{KNN} (KNN)
+  \item \emph{Multilayer perceptron} (MLP)
+  \item \emph{Random Forest} (RF)
+  \item \emph{Gradient Boosting Tree} (GBT)
+\end{itemize}
 
 \section{\uppercase{Results}}
 \label{sec:results}
