@@ -67,7 +67,7 @@ conditional on the possibility of getting data from them.
 Real Time Strategy or \emph{RTS} games are a very suitable kind of videogames
 to use supervised learning with, because usually they have a very large set of
 features which could be used to analyze the game deeply. In particular,
-\emph{StarCraft} is a very well-known RTS game from the 90s. In this game both
+\emph{StarCraft} is a RTS game from the 90s. In this game both
 players begin with a simple building and some workers, and the objective is
 to create an army that can defeat the opponent's one. This is ussualy achieved
 gathering resources from the map and building some important structures to get
@@ -88,10 +88,10 @@ of matches in real time.
 
 % Our proposal
 
-In this paper we propose a set of \emph{StarCraft} features which can predict
-the winner of a match accurately, even in an early stage of the math.
-Furthermore, this features can be ranked to
-get useful information of matches' flow. The framework we have chosen for this
+In this paper we prove that with a well designed set of \emph{StarCraft}
+features, the winner of a match can be predicted accurately, even in an early
+stage of the match.
+The framework we have chosen for this
 work is the Apache ecosystem for data analytics, \emph{Spark} with the machine
 learning library \emph{MLlib}. They provide tools able to deal with a big
 amount of data, so we think it is a good decision due to the data dimension:
@@ -110,22 +110,19 @@ the matches and a ranking of useful features.
 
 % What did we get?
 
-The first conclussion we obtain is that the set of features presented is very
-powerful. Training a classifier is easy, but it doesn't help if data has no
+The main conclusion we get is that we can predict the winner without playing
+the whole match. With 10 minutes approximately,
+it is enough to get predictions with an accuracy ratio of 90\%. Keeping in mind
+that the average duration of a match is 48 minutes approximately, the time
+reduction is considerable. It could be useful combined with metaheuristics to
+optimize agents for this videogame faster. Furthermore, an agent with the
+possibility of predicting accurately the winner could adapt its strategy to
+change the outcome of the match.
+
+This could not be achieved without a good set of features. Training a classifier
+is easy, but it doesn't help if data has no
 quality. This set of data and features could be used in other works based
 on \emph{StarCraft} data to try to improve their results.
-
-These predictions are very precise. They have an accuracy rate above 90\%, so
-we can conclude they are reliable. They could improve studies about this
-videogame or bots, giving information about uncertainty in matches.
-
-The last conclussion we obtain with this work is that it is not needed to play
-the whole match to know what player is the winner. With 10 minutes approximately,
-it is enough to get precise predictions. Keeping in mind that the average
-duration of a match is 48 minutes approximately, the time reduction is
-considerable. It could be useful combined with metaheuristics to optimize
-agents for this videogame faster.
-
 
 
 \section{\uppercase{State of the art}}
@@ -271,8 +268,8 @@ some little tips about the data organisation.
   last value of that resource to keep consistency.
   \item Values of \emph{value} of units and buildings doesn't occur in the
   same instant that the resources' changes. For this reason, as we did with
-  \emph{Frame}, we had to recover the last value of the region values of
-  each player, too.
+  \emph{Frame}, we had to recover the last \emph{value} of the region
+  \emph{values} of each player, too.
   \item \emph{Value} depends of the region of the map. It's important in our
   approach to get a full \emph{value} measure, a value that represents all
   the player units or buildings, so we had to sum the \emph{value} of every
@@ -280,8 +277,8 @@ some little tips about the data organisation.
 \end{itemize}
 
 
-\subsection{Exploratory Data Analysis}
-\label{subsec:eda}
+% \subsection{Exploratory Data Analysis}
+% \label{subsec:eda}
 
 \section{\uppercase{Results}}
 \label{sec:results}
