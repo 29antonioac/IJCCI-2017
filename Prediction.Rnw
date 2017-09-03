@@ -29,7 +29,7 @@
 
 \keywords{Prediction, Classification, Strategy, Planification}
 
-\abstract{The abstract should summarize the contents of the paper and should contain at least 70 and at most 200 words. The text must be set to 9-point font size.}
+\abstract{}
 
 \onecolumn \maketitle \normalsize \vfill
 
@@ -294,6 +294,19 @@ because we want to test the complexity of the data.
   \item \emph{Random Forest} (RF)
   \item \emph{Gradient Boosting Tree} (GBT)
 \end{itemize}
+
+The final results are gotten using this approach 5 times:
+
+\begin{enumerate}
+  \item Split data using 70\% to train and 30\% to validation.
+  \item Inside the first partition, train a model using 10-fold Cross Validation.
+  \item With the final model, validate it in the second partition.
+\end{enumerate}
+
+Using this approach, we get 5 accuracy measures for each model, so we can test
+the obtained samples using appropiate statistical tests. We use \emph{Friedman
+test} to get statistical differences among all the classifiers, and a
+pairwise \emph{t-test} to get differences between classifiers.
 
 \section{\uppercase{Results}}
 \label{sec:results}
