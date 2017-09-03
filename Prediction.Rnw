@@ -29,7 +29,9 @@
 
 \keywords{Prediction, Classification, Strategy, Planification}
 
-\abstract{}
+\abstract{} % This should clearly enphasize the main selling point of
+            % the paper. It should be very clear to you first. What's
+            % your selling point? - JJ
 
 \onecolumn \maketitle \normalsize \vfill
 
@@ -56,6 +58,9 @@ readSparkData <- function(folder) {
 \section{\uppercase{Introduction}}
 \label{sec:introduction}
 
+% You should start with the motivation of the paper, not with general
+% principles. 
+
 % Supervised learning is...
 
 \noindent Supervised learning is a very useful approach to solve problems using
@@ -63,7 +68,7 @@ related data. In the field of AI applied to videogames research, its use is
 conditional on the possibility of getting data from them.
 
 % Introducing the game and its relation with supervised learning
-
+% This could be a candidate for first paragraph. 
 Real Time Strategy or \emph{RTS} games are a very suitable kind of videogames
 to use supervised learning with, because usually they have a very large set of
 features which could be used to analyze the game deeply. In particular,
