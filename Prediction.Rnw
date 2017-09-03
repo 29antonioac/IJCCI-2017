@@ -39,20 +39,44 @@
            % the paper. It should be very clear to you first. What's
            % your selling point? - JJ
 
-\abstract{
-In this study we consider the problem of predict the winner of a \emph{StarCraft}
-match in an early stage of it.
-This study is done with supervised learning, using a large dataset to get
-useful information. We use \emph{Spark} and \emph{MLlib} for this purpose,
-due to the data dimension. We trained some algorithms and restrict matches to
+\abstract{A fast and precise prediction of the outcome of a game is
+  essential for the design of bots that play the game; it can be used
+  either offline as a fast way to design bot strategies or online for
+  conserving resources and conceding defeat or speed up victory, as
+  well as evaluating the consequences of actions. This is the
+  objective of the paper, which considers the problem of predicting the winner of a \emph{StarCraft} 
+match in an early stage of a match. 
+This study is done with supervised learning, % since... or because... 
+using a large dataset to get
+useful information. We use \emph{Spark} and \emph{MLlib} for this
+purpose, % since ... or %because... or after doing... - JJ
+due to the data dimension. % You have to lay out the challenges of the
+                           % problem beforehand. In this problem we
+                           % have this and that. We are tackling this
+                           % challenge with this, that challenge with
+                           % that. 
+We trained some algorithms % Use precise language. How many are some?
+                           % Are they all? How did you choose them?
+                           % Are the algorithms related to the
+                           % challenges you should have talked about
+                           % before? - JJ
+and restrict matches to
 some certain time instant, trying to get useful predictions with only a fraction
-of the match.
+of the match. % DRY, don't repeat yourself. You said that before - JJ
 With this approach we get that it is not necessary to play a whole match to
 predict its winner with high accuracy: with 10 minutes only we can predict the
 outcome with 90\% of accuracy.
 This could be used to reduce the optimization time of \emph{bots} which play
 this game, or to improve \emph{bots} adaptability using the outcome knowledge
-in every moment of the match.
+in every moment of the match. % This is the motivation. With my
+                              % introductory sentence it is not
+                              % necessary, I guess, so
+                              % reevaluate. Besides, last statements
+                              % in the abstract should go to
+                              % results. Your main objective was to
+                              % avoid playing the game. What's the
+                              % median time you need to predict
+                              % results? - JJ
 }
 
 
