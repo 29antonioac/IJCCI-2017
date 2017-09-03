@@ -29,7 +29,26 @@
 
 \keywords{Prediction, Classification, Strategy, Planification}
 
-\abstract{}
+% 1) the overall purpose of the study and the research problem(s) you investigated.
+% 2) the basic design of the study.
+% 3) major findings or trends found as a result of your analysis.
+% 4) a brief summary of your interpretations and conclusions.
+
+\abstract{
+In this study we consider the problem of predict the winner of a \emph{StarCraft}
+match in an early stage of it.
+This study is done with supervised learning, using a large dataset to get
+useful information. We use \emph{Spark} and \emph{MLlib} for this purpose,
+due to the data dimension. We trained some algorithms and restrict matches to
+some certain time instant, trying to get useful predictions with only a fraction
+of the match.
+With this approach we get that it is not necessary to play a whole match to
+predict its winner with high accuracy: with 10 minutes only we can predict the
+outcome with 90\% of accuracy.
+This could be used to reduce the optimization time of \emph{bots} which play
+this game, or to improve \emph{bots} adaptability using the outcome knowledge
+in every moment of the match.
+}
 
 \onecolumn \maketitle \normalsize \vfill
 
