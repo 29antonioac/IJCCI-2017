@@ -29,10 +29,15 @@
 
 \keywords{Prediction, Classification, Strategy, Planification}
 
+
 % 1) the overall purpose of the study and the research problem(s) you investigated.
 % 2) the basic design of the study.
 % 3) major findings or trends found as a result of your analysis.
 % 4) a brief summary of your interpretations and conclusions.
+
+% This should clearly enphasize the main selling point of
+           % the paper. It should be very clear to you first. What's
+           % your selling point? - JJ
 
 \abstract{
 In this study we consider the problem of predict the winner of a \emph{StarCraft}
@@ -49,6 +54,8 @@ This could be used to reduce the optimization time of \emph{bots} which play
 this game, or to improve \emph{bots} adaptability using the outcome knowledge
 in every moment of the match.
 }
+
+
 
 \onecolumn \maketitle \normalsize \vfill
 
@@ -75,6 +82,9 @@ readSparkData <- function(folder) {
 \section{\uppercase{Introduction}}
 \label{sec:introduction}
 
+% You should start with the motivation of the paper, not with general
+% principles.
+
 % Supervised learning is...
 
 \noindent Supervised learning is a very useful approach to solve problems using
@@ -82,7 +92,7 @@ related data. In the field of AI applied to videogames research, its use is
 conditional on the possibility of getting data from them.
 
 % Introducing the game and its relation with supervised learning
-
+% This could be a candidate for first paragraph.
 Real Time Strategy or \emph{RTS} games are a very suitable kind of videogames
 to use supervised learning with, because usually they have a very large set of
 features which could be used to analyze the game deeply. In particular,
@@ -487,6 +497,10 @@ algorithms.
 
 \section*{\uppercase{Acknowledgements}}
 \label{sec:acknowledgements}
+
+This work has been supported in part by: de Ministerio espa\~{n}ol de
+Econom\'{\i}a y Competitividad under project TIN2014-56494-C4-3-P
+(UGR-EPHEMECH) and by CONACYT PEI Project No. 220590.
 
 \vfill
 \bibliographystyle{apalike}
