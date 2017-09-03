@@ -469,6 +469,10 @@ algorithms.
 \section*{\uppercase{Acknowledgements}}
 \label{sec:acknowledgements}
 
+This work has been supported in part by: de Ministerio espa\~{n}ol de
+Econom\'{\i}a y Competitividad under project TIN2014-56494-C4-3-P
+(UGR-EPHEMECH) and by CONACYT PEI Project No. 220590. 
+
 \vfill
 \bibliographystyle{apalike}
 {\small
