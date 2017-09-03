@@ -136,7 +136,7 @@ features which could be used to analyze the game deeply. In particular,
 \emph{StarCraft} is a RTS game from the 90s. In this game both
 players begin with a simple building and some workers, and the objective is
 to create an army that can defeat the opponent's one. This is ussualy achieved
-gathering resources from the map and building some important structures to get
+by gathering resources from the map and building some important structures to get
 the best units for your army. However, there are infinite strategies to follow,
 and all of them are valid ones. Whatever strategy it is used, this process
 generates a lot of data, which can be used to get hidden information from the
@@ -145,11 +145,11 @@ match.
 % BWAPI: Accesing to data
 
 Usually companies don't allow access matches' data to users. \emph{StarCraft}
-is not an exception, but community have created an \emph{API} to access data
+is not an exception, but community has created an \emph{API} to access data
 and manipulate the game itself: \emph{BWAPI}. With this tool users can create
-artificial agent which play the game making competitions. Another common use
-of this \emph{API} is gather data. The conclusions that can be extracted
-from data could be very important, because could offer extra information
+artificial agents which play the game making competitions. This \emph{API} is
+also commonly used for gathering data. The conclusions that can be extracted
+from data could be very important, because they could offer extra information
 of matches in real time.
 
 % Our proposal
@@ -169,8 +169,8 @@ In this work a complete Knowledge Discovery in Databases (\emph{KDD}) process
 is done. The data were collected from \cite{DBLP:conf/flairs/RobertsonW14},
 a set of six relational databases which contains a very big amount of data
 from more than 4500 \emph{StarCraft} replays. A preprocessing with \emph{SQL}
-was made to organise the data and extract our set of important features. At
-last, the modelling was made using \emph{Spark} and \emph{MLlib} as we said,
+was made to organise the data and extract our set of important features. Finally,
+the modelling was made using \emph{Spark} and \emph{MLlib} as we said,
 allowing us to extract useful information as the winner in an early stage of
 the matches and a ranking of useful features.
 
@@ -194,7 +194,7 @@ on \emph{StarCraft} data to try to improve their results.
 \section{\uppercase{State of the art}}
 \label{sec:state}
 
-\noindent In the \emph{StarCraft} research a lot of approaches has been presented.
+\noindent In the \emph{StarCraft} research a lot of approaches have been presented.
 The most used approach is developing probabilistic graphical models to predict
 the winner of a match. Some examples are in~\cite{DBLP:conf/cig/SynnaeveB11a}
 and~\cite{DBLP:conf/aiide/StanescuHEGB13}, where important events in the match
@@ -209,7 +209,7 @@ and controlled. It is possible that it doesn't show the diversity in
 in~\cite{DBLP:conf/flairs/RobertsonW14}, which is very heterogeneus,
 complete and granulated.
 
-Another works look for plans and strategies based on predictions of the outcome
+Further works look for plans and strategies based on predictions of the outcome
 of matches, as we can see in~\cite{adaptativeStrategyPrediction} and
 in~\cite{makingAndActing}.
 
@@ -219,7 +219,7 @@ time consuming, so whatever saved time would be appreciated. This approach
 gives good results, as we can see in~\cite{DBLP:conf/evoW/Fernandez-AresG16}
 and~\cite{DBLP:conf/cig/Garcia-SanchezT15}.
 
-\section{\uppercase{Metodology}}
+\section{\uppercase{Methodology}}
 \label{sec:metodology}
 
 In this paper we do a complete \emph{KDD} process using \emph{SQL} and some
@@ -228,11 +228,11 @@ We did this election because Apache echosystem is suitable for dealing
 with very large datasets, offering a framework which produces similar projects
 in centralized and distributed environments.
 
-Using its \emph{Scala} interface was chosen because it is the most complete
+Its \emph{Scala} interface was chosen because it is the most complete
 one for \emph{Spark} and \emph{MLlib}. Furthermore, \emph{Scala} is a modern
 functional and object-oriented language which is used widely in some companies
-as LinkedIn, Twitter or Siemens. One of this advantages is that \emph{Scala}
-compiles to the Java Virtual Machine or \emph{JVM}. As a consecuence,
+as LinkedIn, Twitter or Siemens. One of these advantages is that \emph{Scala}
+compiles to the Java Virtual Machine or \emph{JVM}. As a consequence,
 multiplatform code is developed.
 
 \subsection{Feature selection}
@@ -244,18 +244,18 @@ The data we use is taken from~\cite{DBLP:conf/flairs/RobertsonW14}, who with
 their work offer six relational databases of one versus one matches, with all
 the possible combinations of races that the game offers.
 
-In Figure~\ref{fig:databaseSelection} we could see the entity-relationship diagram
-of the databases that contain the matches. Understand all features was easy
+In Figure~\ref{fig:databaseSelection} we cab see the entity-relationship diagram
+of the databases that contain the matches. Understanding all features was easy
 because~\cite{DBLP:conf/flairs/RobertsonW14} work is totally open, so we could
-explore the code associated. Furthermore, a lot of features has the same name
+explore the code associated. Furthermore, a lot of features have the same name
 that attributes from the \emph{BWAPI}, although a set of features was calculated
 by the researchers like the distance to the base in a moment of the match.
 
 To get a rows and columns dataset, we propose this structure. Each row of the
 dataset will be a precise instant of the match, determined by a \emph{Frame}.
 Each instant has the information of resources of each player. This approach
-is different to another ones presented in~\ref{sec:introduction}. It seems easy
-but the organisation of the data was not trivial.
+is different to another ones presented in Section~\ref{sec:introduction}. It
+seems easy but the organisation of the data was not trivial.
 
 \begin{figure*}[!h]
   \centering
@@ -269,7 +269,7 @@ Figure~\ref{fig:databaseSelection}. Some of them are used only to organise the
 data, the identifiers of replay, player and region.
 
 \begin{itemize}
-  \item replay: This table contais data about each match.
+  \item replay: This table contains data about each match.
   \begin{itemize}
     \item ReplayID: Match identifier.
     %\item Duration: Duration of each match in frames, 15 frames per second.
@@ -288,8 +288,8 @@ data, the identifiers of replay, player and region.
     \item Gas: Amount of gas of a player.
     \item Supply: Carrying capacity of a player.
     \item TotalMinerals: Total amount of minerals of a player, without costs.
-    \item TotalGas: Total amount of minerals of a player, without costs.
-    \item TotalSupply: Total amount of minerals of a player, without costs.
+    \item TotalGas: Total amount of gas of a player, without costs.
+    \item TotalSupply: Total amount of supply of a player, without costs.
   \end{itemize}
   \item regionvaluechange: This table contains data associated to changes of a
   player in a map region. Each \emph{value} is the sum of the price of an unit,
@@ -309,30 +309,30 @@ data, the identifiers of replay, player and region.
     This value is estimated, the player knows the units they see of the enemy.
     \item ResourceValue: Value of resources in this region. This value is
     estimated, the player knows the units they see of the map.
-    If the player doesn't know a region, they estimate this value as the maximum
+    If the player does not know a region, they estimate this value as the maximum
     available in the region.
   \end{itemize}
 \end{itemize}
 
 The features related to a player are presented twice, one for each player.
 Furthermore, a \emph{race} feature is used, as the races implied in the match.
-As a consecuence, we have 28 features used in the modelling stage of the work.
+As a consequence, we have 28 features used in the modelling stage of the work.
 
 \subsection{Data preprocessing}
 \label{subsec:preprocess}
 
-As we said in~\ref{subsec:selection}, each observation of the data has 28
+As we said in Section~\ref{subsec:selection}, each observation of the data has 28
 features related to the resources and units of each player. We have to note
 some little tips about the data organisation.
 
 \begin{itemize}
-  \item Values of \emph{Frame} are the instants when a whatever player has
-  a minerals, gas or supply change. We did this election because in this games
+  \item Values of \emph{Frame} are the instants when any player has
+  a minerals, gas or supply change. We did this election because in these games
   the basic resources are always changing due to necessity of them to buy
   units or buildings. This implies some missing values in the resources of
   the player who doesn't make a change in that frame, so we had to recover the
   last value of that resource to keep consistency.
-  \item Values of \emph{value} of units and buildings doesn't occur in the
+  \item Values of \emph{value} of units and buildings changes do not occur in the
   same instant that the resources' changes. For this reason, as we did with
   \emph{Frame}, we had to recover the last \emph{value} of the region
   \emph{values} of each player, too.
@@ -349,8 +349,8 @@ some little tips about the data organisation.
 \subsection{Modelling}
 \label{subsec:modelling}
 
-We have chosen for the modelling some algorithms. Some of them are very simple,
-because we want to test the complexity of the data.
+We have chosen six algorithms for the modelling. Some of them are very simple,
+because we want to test if a simple algorithm can model the data.
 
 \begin{itemize}
   \item \emph{Naive Bayes} (NB)
@@ -361,7 +361,7 @@ because we want to test the complexity of the data.
   \item \emph{Gradient Boosting Tree} (GBT)
 \end{itemize}
 
-The final results are gotten using this approach 5 times:
+The final results are obtained using this approach 5 times:
 
 \begin{enumerate}
   \item Split data using 70\% to train and 30\% to validation.
@@ -377,7 +377,7 @@ pairwise \emph{t-test} to get differences between classifiers.
 \section{\uppercase{Results}}
 \label{sec:results}
 
-In Figure~\ref{fig:MeasuresGraphics} and table~\ref{tab:measures} is
+In Figure~\ref{fig:MeasuresGraphics} and Table~\ref{tab:measures} is
 exposed the accuracy of each model with their parameters. The accuracy is
 evaluated in the validation sets.
 
@@ -453,7 +453,7 @@ ggplot(subset(mean_or_median.sd, Frames != max.duration), aes(Frames, Accuracy, 
   scale_y_continuous(breaks = seq(0.4,1.0,by=0.05))
 @
 
-In figure~\ref{fig:TimeComparisonAcc} is exposed the accuracy differences
+In Figure~\ref{fig:TimeComparisonAcc} is exposed the accuracy differences
 between classifiers over time. \emph{KNN} can classify with a precision of $\Sexpr{subset(mean_or_median.sd, Classifier == "KNN" & Frames == 9000)[1,"Accuracy"]} \pm \Sexpr{subset(mean_or_median.sd, Classifier == "KNN" & Frames == 9000)[1,"SD"]}$ only
 with 10 minutes of match. The mean of the duration is \Sexpr{avg.duration.frames}
 frames, which are equal to \Sexpr{avg.duration.mins} minutes. It implies that
@@ -463,7 +463,7 @@ necessary to play the whole match to get the winner with high confidence.
 
 To complete the study, we present a Friedman test to see significative
 differences over the classifiers. All frames of the matches are used. We
-can see in table~\ref{tab:acc} the accuracy of each classifier.
+can see in Table~\ref{tab:acc} the accuracy of each classifier.
 
 <<Friedman, results = "asis">>=
 d <- as.matrix(subset(measures.full, Frames == max.duration)[,-c(1,2)])
@@ -472,15 +472,15 @@ fr <- friedman.test(d)
 rownames(d) <- NULL
 
 print(xtable::xtable(d,
-  caption = "Accurate of classifiers in each validation set",
+  caption = "Accuracy of classifiers in each validation set",
   table.placement = "H",
   label = "tab:acc",
   digits = 6),
   floating.environment = "table*")
 @
 
-With a p-value of \Sexpr{I(fr$p.value)}, we can confirm that exist statistical
-signification. We can see in table~\ref{tab:pvalues} a pairwise test, with
+With a p-value of \Sexpr{I(fr$p.value)}, we can confirm that statistical
+signification exists. We can see in Table~\ref{tab:pvalues} a pairwise test, with
 \emph{Bonferroni} adjust method of the p-value.
 
 <<Pairwise, results = "asis">>=
@@ -492,7 +492,7 @@ out <- a$p.value
 colnames(out) <- colnames(measures.full)[3:7]
 rownames(out) <- colnames(measures.full)[4:8]
 print(xtable::xtable(out,
-  caption = "P-values from a pairwise t-test",
+  caption = "p-values from a pairwise t-test",
   table.placement="H",
   label = "tab:pvalues",
   digits = 6 ),
@@ -510,12 +510,12 @@ differences between \emph{KNN} and \emph{Gradient Boosting Tree}.
 
 With this study we can extract some conclusions. The first one is that the set
 of features are well formed: the winner can be predicted from the selected
-features with high confidence, as we exposed in~\ref{sec:results}.
+features with high confidence, as we exposed in Section~\ref{sec:results}.
 
 The second and main conclusion is that predictions with this data are very
 accurate in an early stage, in particular using a \emph{KNN}
 classifier. It can predict with 90\% of accuracy using 10 minutes of match only.
-This is very important because it proofs that it is not necessary to play a
+This is very important because it proves that it is not necessary to play a
 whole match to predict the winner accurately.
 
 As future work there are some research opportunities using this study. With a
