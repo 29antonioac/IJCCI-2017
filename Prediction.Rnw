@@ -44,39 +44,53 @@
   either offline as a fast way to design bot strategies or online for
   conserving resources and conceding defeat or speed up victory, as
   well as evaluating the consequences of actions. This is the
-  objective of the paper, which considers the problem of predicting the winner of a \emph{StarCraft} 
-match in an early stage of a match. 
-This study is done with supervised learning, % since... or because... 
-using a large dataset to get
-useful information. We use \emph{Spark} and \emph{MLlib} for this
-purpose, % since ... or %because... or after doing... - JJ
-due to the data dimension. % You have to lay out the challenges of the
-                           % problem beforehand. In this problem we
-                           % have this and that. We are tackling this
-                           % challenge with this, that challenge with
-                           % that. 
-We trained some algorithms % Use precise language. How many are some?
-                           % Are they all? How did you choose them?
-                           % Are the algorithms related to the
-                           % challenges you should have talked about
-                           % before? - JJ
-and restrict matches to
-some certain time instant, trying to get useful predictions with only a fraction
-of the match. % DRY, don't repeat yourself. You said that before - JJ
+  objective of the paper, which considers the problem of predicting the winner of a \emph{StarCraft}
+match in an early stage of a match.
+This study is done with supervised learning, because a lot of data is generated
+during the match and could be gathered. The main problem of this approach is the
+really big amount of generated data, so it has to be selected and organised
+properly. Another consequence of this fact is that we have to use proper tools
+to deal with this amount of data. This is why we use \emph{Spark} and
+\emph{MLlib} for this purpose.
+
+% since ... or %because... or after doing... - JJ
+% You have to lay out the challenges of the
+% problem beforehand. In this problem we
+% have this and that. We are tackling this
+% challenge with this, that challenge with
+% that.
+% Use precise language. How many are some?
+% Are they all? How did you choose them?
+% Are the algorithms related to the
+% challenges you should have talked about
+% before? - JJ
+We trained six learning algorithms,
+almost all the available classification ones in \emph{MLlib} plus \emph{KNN},
+which is not included in \emph{MLlib} at the moment. We use this set to
+try with simple and complex algorithms.
+We restrict matches to
+some certain time instant, trying to get a time bound for predicting matches.
+
 With this approach we get that it is not necessary to play a whole match to
 predict its winner with high accuracy: with 10 minutes only we can predict the
 outcome with 90\% of accuracy.
-This could be used to reduce the optimization time of \emph{bots} which play
-this game, or to improve \emph{bots} adaptability using the outcome knowledge
-in every moment of the match. % This is the motivation. With my
-                              % introductory sentence it is not
-                              % necessary, I guess, so
-                              % reevaluate. Besides, last statements
-                              % in the abstract should go to
-                              % results. Your main objective was to
-                              % avoid playing the game. What's the
-                              % median time you need to predict
-                              % results? - JJ
+% This could be used to reduce the optimization time of \emph{bots} which play
+% this game, or to improve \emph{bots} adaptability using the outcome knowledge
+% in every moment of the match.
+
+% This is the motivation. With my
+% introductory sentence it is not
+% necessary, I guess, so
+% reevaluate. Besides, last statements
+% in the abstract should go to
+% results. Your main objective was to
+% avoid playing the game. What's the
+% median time you need to predict
+% results? - JJ
+% It's not a "median time". Firstly
+% I cut matches and then evaluate the
+% classifiers, so the time is a scalar value.
+
 }
 
 
