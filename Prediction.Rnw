@@ -70,7 +70,6 @@ which is not included in \emph{MLlib} at the moment. We use this set to
 try with simple and complex algorithms.
 We restrict matches to
 some certain time instant, trying to get a time bound for predicting matches.
-
 With this approach we get that it is not necessary to play a whole match to
 predict its winner with high accuracy: with 10 minutes only we can predict the
 outcome with 90\% of accuracy.
@@ -122,16 +121,16 @@ readSparkData <- function(folder) {
 
 % You should start with the motivation of the paper, not with general
 % principles.
-
-% Supervised learning is...
-
-\noindent Supervised learning is a very useful approach to solve problems using
-related data. In the field of AI applied to videogames research, its use is
-conditional on the possibility of getting data from them.
+%
+% % Supervised learning is...
+%
+% \noindent Supervised learning is a very useful approach to solve problems using
+% related data. In the field of AI applied to videogames research, its use is
+% conditional on the possibility of getting data from them.
 
 % Introducing the game and its relation with supervised learning
 % This could be a candidate for first paragraph.
-Real Time Strategy or \emph{RTS} games are a very suitable kind of videogames
+\noindentReal Time Strategy or \emph{RTS} games are a very suitable kind of videogames
 to use supervised learning with, because usually they have a very large set of
 features which could be used to analyze the game deeply. In particular,
 \emph{StarCraft} is a RTS game from the 90s. In this game both
