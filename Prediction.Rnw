@@ -115,6 +115,7 @@ readSparkData <- function(folder) {
 # opts_chunk$set(fig.width=4, fig.height=3,fig.pos = '!hbt')
 #opts_chunk$set(fig.pos = 'H', cache=T, autodep=T)
 #options(scipen=999)
+options(digits=3)
 @
 
 \section{\uppercase{Introduction}}
@@ -136,11 +137,11 @@ to use supervised learning with, because usually they have a very large set of
 features which could be used to analyze the game deeply. In particular,
 \emph{StarCraft} is a RTS game from the 90s. In this game both
 players begin with a simple building and some workers, and the objective is
-to create an army that can defeat the opponent's one. This is ussualy achieved
+to create an army that can defeat the opponent's one. This is usualy achieved
 by gathering resources from the map and building some important structures to get
 the best units for your army. However, there are infinite strategies to follow,
 and all of them are valid ones. Whatever strategy it is used, this process
-generates a lot of data, which can be used to get hidden information from the
+generates a lot of data, which can be used to get hidden information about the
 match.
 
 % BWAPI: Accesing to data
@@ -187,7 +188,7 @@ possibility of predicting accurately the winner could adapt its strategy to
 change the outcome of the match.
 
 This could not be achieved without a good set of features. Training a classifier
-is easy, but it doesn't help if data has no
+is easy, but it doesn't help if data have no
 quality. This set of data and features could be used in other works based
 on \emph{StarCraft} data to try to improve their results.
 
@@ -203,7 +204,7 @@ are used to predict the outcome: when a very important building appears,
 an important event succession for a race, the birth of the best unit of a race,
 etc.
 
-Another approach based in supervised learning is presented
+Another approach based on supervised learning is presented
 in~\cite{DBLP:conf/cosecivi/Sanchez-Ruiz15}, but the environment is homogeneus
 and controlled. It is possible that it doesn't show the diversity in
 \emph{StarCraft} matches. A better dataset is presented
@@ -215,7 +216,7 @@ of matches, as we can see in~\cite{adaptativeStrategyPrediction} and
 in~\cite{makingAndActing}.
 
 Another approach is developing strategies using \emph{Genetic Programming},
-creating plans automatically which can win. This kind of algorithms are very
+creating plans automatically which can win. These kind of algorithms are very
 time consuming, so whatever saved time would be appreciated. This approach
 gives good results, as we can see in~\cite{DBLP:conf/evoW/Fernandez-AresG16}
 and~\cite{DBLP:conf/cig/Garcia-SanchezT15}.
@@ -230,7 +231,7 @@ with very large datasets, offering a framework which produces similar projects
 in centralized and distributed environments.
 
 Its \emph{Scala} interface was chosen because it is the most complete
-one for \emph{Spark} and \emph{MLlib}. Furthermore, \emph{Scala} is a modern
+one for \emph{Spark} and \emph{MLlib}. Furthermore, \emph{Scala} is a modern,
 functional and object-oriented language which is used widely in some companies
 as LinkedIn, Twitter or Siemens. One of these advantages is that \emph{Scala}
 compiles to the Java Virtual Machine or \emph{JVM}. As a consequence,
@@ -245,7 +246,7 @@ The data we use is taken from~\cite{DBLP:conf/flairs/RobertsonW14}, who with
 their work offer six relational databases of one versus one matches, with all
 the possible combinations of races that the game offers.
 
-In Figure~\ref{fig:databaseSelection} we cab see the entity-relationship diagram
+In Figure~\ref{fig:databaseSelection} we can see the entity-relationship diagram
 of the databases that contain the matches. Understanding all features was easy
 because~\cite{DBLP:conf/flairs/RobertsonW14} work is totally open, so we could
 explore the code associated. Furthermore, a lot of features have the same name
@@ -255,7 +256,7 @@ by the researchers like the distance to the base in a moment of the match.
 To get a rows and columns dataset, we propose this structure. Each row of the
 dataset will be a precise instant of the match, determined by a \emph{Frame}.
 Each instant has the information of resources of each player. This approach
-is different to another ones presented in Section~\ref{sec:introduction}. It
+is different to other ones presented in Section~\ref{sec:introduction}. It
 seems easy but the organisation of the data was not trivial.
 
 \begin{figure*}[!h]
@@ -270,18 +271,18 @@ Figure~\ref{fig:databaseSelection}. Some of them are used only to organise the
 data, the identifiers of replay, player and region.
 
 \begin{itemize}
-  \item replay: This table contains data about each match.
+  \item replay: Contains data about each match.
   \begin{itemize}
     \item ReplayID: Match identifier.
     %\item Duration: Duration of each match in frames, 15 frames per second.
   \end{itemize}
-  \item playerreplay: This table contains data about a player in a match.
+  \item playerreplay: Contains data about a player in a match.
   \begin{itemize}
     \item PlayerReplayID: Player identifier.
     \item ReplayID: Match identifier.
     \item Winner: Winner of the match.
   \end{itemize}
-  \item resourcechange: This table contains data associated to changes in player's resources.
+  \item resourcechange: Contains data associated to changes in player's resources.
   \begin{itemize}
     \item PlayerReplayID: Player identifier.
     \item Frame: Frame when the resource changes.
@@ -292,7 +293,7 @@ data, the identifiers of replay, player and region.
     \item TotalGas: Total amount of gas of a player, without costs.
     \item TotalSupply: Total amount of supply of a player, without costs.
   \end{itemize}
-  \item regionvaluechange: This table contains data associated to changes of a
+  \item regionvaluechange: Contains data associated to changes of a
   player in a map region. Each \emph{value} is the sum of the price of an unit,
   expressed as minerals and gas.
   \begin{itemize}
@@ -436,22 +437,24 @@ This one offers a great accuracy with a very simple approach, but it is not
 suitable for doing a lot of predictions in real time, because of its lazy
 approach.
 
-<<MeasuresGraphics, fig.cap = "Obtained measures with all models", fig.env = "figure">>=
+<<MeasuresGraphics, fig.cap = "Obtained measures with all models", fig.env = "figure", fig.height = 7>>=
 
 ggplot(subset(mean_or_median.sd, Frames == max.duration), aes(Classifier, Accuracy, fill = Classifier)) +
   geom_bar(stat = "identity") +
   geom_errorbar(aes(ymin=Accuracy-SD, ymax=Accuracy+SD),width=.3) +
-  scale_y_continuous(breaks = seq(0, 1, by = 0.1)) #+
-  # theme(axis.text.x = element_text(angle = 45, vjust = 0.8, hjust = 0.8), axis.text.y = element_text(size = 8))
+  scale_y_continuous(breaks = seq(0, 1, by = 0.1)) +
+  theme(legend.position="bottom")
 @
 
-<<TimeComparisonAcc, fig.cap = "Classifiers comparative over time", fig.width = 10 >>=
+<<TimeComparisonAcc, fig.cap = "Classifiers comparative over time", fig.height = 8 >>=
 ggplot(subset(mean_or_median.sd, Frames != max.duration), aes(Frames, Accuracy, col = Classifier)) +
   geom_point() +
   geom_line() +
   geom_errorbar(aes(ymin=Accuracy-SD, ymax=Accuracy+SD)) +
   scale_x_continuous(breaks = frames) +
-  scale_y_continuous(breaks = seq(0.4,1.0,by=0.05))
+  scale_y_continuous(breaks = seq(0.4,1.0,by=0.05)) +
+  theme(legend.position="bottom")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.8, hjust = 0.8), axis.text.y = element_text(size = 8))
 @
 
 In Figure~\ref{fig:TimeComparisonAcc} is exposed the accuracy differences
@@ -510,7 +513,7 @@ differences between \emph{KNN} and \emph{Gradient Boosting Tree}.
 \label{sec:conclusions}
 
 With this study we can extract some conclusions. The first one is that the set
-of features are well formed: the winner can be predicted from the selected
+of features is well formed: the winner can be predicted from the selected
 features with high confidence, as we exposed in Section~\ref{sec:results}.
 
 The second and main conclusion is that predictions with this data are very
