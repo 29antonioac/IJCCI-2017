@@ -437,8 +437,7 @@ This one offers a great accuracy with a very simple approach, but it is not
 suitable for doing a lot of predictions in real time, because of its lazy
 approach.
 
-<<MeasuresGraphics, fig.cap = "Obtained measures with all models", fig.env = "figure", fig.height = 7>>=
-
+<<MeasuresGraphics, fig.cap = "Measures obtained with all models", fig.height=8>>=
 ggplot(subset(mean_or_median.sd, Frames == max.duration), aes(Classifier, Accuracy, fill = Classifier)) +
   geom_bar(stat = "identity") +
   geom_errorbar(aes(ymin=Accuracy-SD, ymax=Accuracy+SD),width=.3) +
@@ -446,7 +445,7 @@ ggplot(subset(mean_or_median.sd, Frames == max.duration), aes(Classifier, Accura
   theme(legend.position="bottom")
 @
 
-<<TimeComparisonAcc, fig.cap = "Classifiers comparative over time", fig.height = 8 >>=
+<<TimeComparisonAcc, fig.cap = "Comparing classifiers over time", fig.height = 8 >>=
 ggplot(subset(mean_or_median.sd, Frames != max.duration), aes(Frames, Accuracy, col = Classifier)) +
   geom_point() +
   geom_line() +
