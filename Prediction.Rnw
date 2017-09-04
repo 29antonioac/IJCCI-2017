@@ -22,9 +22,10 @@
 
 \title{Early prediction of the winner in \emph{StarCraft} matches }
 
-\author{\authorname{Antonio \'Alvarez-Caballero\sup{1}, J.J. Merelo\sup{1} and Third Author Name\sup{2}}
+\author{\authorname{Antonio \'Alvarez-Caballero\sup{1}, J.J. Merelo\sup{1},  Pablo Garc\'ia S\'anchez\sup{2} and A. Fern\'andez-Ares\sup{1}}
 \affiliation{\sup{1}Department of Computer Architecture and Computer Technology, University of Granada, Spain}
-\email{analca3@correo.ugr.es, jmerelo@ugr.es}
+\affiliation{\sup{2}Department of Computer Science, University of C\'adiz, Spain}
+\email{analca3@correo.ugr.es, jmerelo@ugr.es, pablo.garciasanchez@uca.es, antares@ugr.es}
 }
 
 \keywords{Prediction, Classification, Strategy, Planification}
