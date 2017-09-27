@@ -56,18 +56,26 @@ essential for the design of bots that play the game; it can be used
 either offline as a fast way to design bot strategies or online for
 conserving resources and conceding defeat or speed up victory, as
 well as evaluating the consequences of actions. This is the
-objective of the paper, which considers the problem of predicting the winner of a \emph{StarCraft}
+objective of the paper, %Pablo: Instead "This is the objective" (which one?) I would write "The objective of this paper is to find a fast and precise..." for more clarification
+which considers the problem of predicting the winner of a \emph{StarCraft}
 match in an early stage of a match.
 This study is done with supervised learning, because a lot of data is generated
-during the match and could be gathered. The main problem of this approach is the
+during the match and could be gathered. %Pablo: is this the REAL reason we are using supervised learning?
+%Pablo: From here...
+The main problem of this approach is the
 really big amount of generated data, so it has to be selected and organised
 properly. Another consequence of this fact is that we have to use proper tools
-to deal with this amount of data. This is why we use \emph{Spark} and
+to deal with this amount of data. 
+%Pablo: ...to here->Rewrite in one sentence.
+This is why we use \emph{Spark} and
 \emph{MLlib} for this purpose.
 We trained six learning algorithms,
-almost all the available classification ones in \emph{MLlib} plus \emph{KNN},
+almost all the available classification ones in \emph{MLlib} plus \emph{KNN}, %Pablo: Why KNN was also used? As a baseline? Because is simpler? Explain it here
 which is not included in \emph{MLlib} at the moment. We use this set to
 try with simple and complex algorithms.
+%Pablo: move the technical aspects of the methodology (frameworks or languages used) as the last step of the methodology in all sections. Example: The used algorithm is the Algorithm A, because is the most blablabla. The specific implementation used in this work is the one included in framework Pepe because is the most extended. In fact, you can remove the technical descriptions in the abstract.
+
+%Pablo: also there is a big step between both paragraphs, try to connect them in some way. Reading a paper must be like a flow, not a list of unrelated items.
 We restrict matches to
 some certain time instant, trying to get a time bound for predicting matches.
 With this approach we get that it is not necessary to play a whole match to
@@ -140,18 +148,22 @@ players begin with a simple building and some workers, and the objective is
 to create an army that can defeat the opponent's one. This is usualy achieved
 by gathering resources from the map and building some important structures to get
 the best units for your army. However, there are infinite strategies to follow,
-and all of them are valid ones. Whatever strategy it is used, this process
+and all of them are valid ones. %Pablo: what "valid" means here? Correct? Optimal?
+Whatever strategy it is used, this process
 generates a lot of data, which can be used to get hidden information about the
 match.
+%Pablo: Use a reference to Ontanon Starcraft survey to validate some of the previous claims.
 
 % BWAPI: Accesing to data
 
-Usually companies don't allow access matches' data to users. \emph{StarCraft}
-is not an exception, but community has created an \emph{API} to access data
+Usually videogame developers do not allow access matches' data to users. \emph{StarCraft} %Pablo: important! Do not use contractions ("don't->do not")
+is not an exception, but their community has created an \emph{API} to access data
 and manipulate the game itself: \emph{BWAPI}. With this tool users can create
 artificial agents which play the game making competitions. This \emph{API} is
-also commonly used for gathering data. The conclusions that can be extracted
-from data could be very important, because they could offer extra information
+also commonly used for gathering data. %Pablo: big jump from previous phrase to next one (they are unrelated). Try to join both phrases. For example, adding "These framework has been used in previous year to obtain a big number of game datasets."
+The conclusions that can be extracted
+from this data could be very important, %Pablo: important for whom?
+ because they could offer extra information %Pablo: such as... blabla
 of matches in real time.
 
 % Our proposal
@@ -159,7 +171,7 @@ of matches in real time.
 In this paper we prove that with a well designed set of \emph{StarCraft}
 features, the winner of a match can be predicted accurately, even in an early
 stage of the match.
-The framework we have chosen for this
+The framework we have chosen for this %Pablo: this phrase is unrelated with the previous one. Also, do not mix descriptions of the methodology with the implementation. Move this the end of the section. Remember: first the methodology (algorithms used), then how they have been implemented (which frameworks), then results, and finally conclusions. So, a reader can skip implementation parts without problem if he is not interested, and continue understanding the work done.
 work is the Apache ecosystem for data analytics, \emph{Spark} with the machine
 learning library \emph{MLlib}. They provide tools able to deal with a big
 amount of data, so we think it is a good decision due to the data dimension:
@@ -176,19 +188,20 @@ the modelling was made using \emph{Spark} and \emph{MLlib} as we said,
 allowing us to extract useful information as the winner in an early stage of
 the matches and a ranking of useful features.
 
+%Pablo: here the Apache ecosystem paragraph should be moved.
 % What did we get?
 
-The main conclusion we get is that we can predict the winner without playing
+The main conclusion obtained is that we can predict the winner without playing %Pablo: I still do not know if using "we" in papers is correct. But if we are going to use "we", we should keep it coherent along all the paper.
 the whole match. With 10 minutes approximately,
 it is enough to get predictions with an accuracy ratio of 90\%. Keeping in mind
 that the average duration of a match is 48 minutes approximately, the time
 reduction is considerable. It could be useful combined with metaheuristics to
-optimize agents for this videogame faster. Furthermore, an agent with the
+optimize agents for this videogame faster, by using a surrogate-based model. Furthermore, an agent with the %Pablo: added the surrogate-based thing. Maybe adding a reference?
 possibility of predicting accurately the winner could adapt its strategy to
 change the outcome of the match.
 
 This could not be achieved without a good set of features. Training a classifier
-is easy, but it doesn't help if data have no
+is easy, but it does not help if data have no %Pablo: very important, do not use contracted forms "doesn't->does not" in papers
 quality. This set of data and features could be used in other works based
 on \emph{StarCraft} data to try to improve their results.
 
